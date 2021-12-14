@@ -52,20 +52,20 @@ func getDetails(data *http.Response, errorData error, quantity int) {
 func displayDetails(w http.ResponseWriter, r *http.Request) {
 	//Retrieving data from path variable
 	vars := mux.Vars(r)
-	qt, ok := vars["quantity"]
+	quantityTemp, ok := vars["quantity"]
 	if !ok {
 		fmt.Println("Data missing")
 	}
 	//Converting string to integer
-	q, _ := strconv.Atoi(qt)
+	quantity, _ := strconv.Atoi(quantityTemp)
 	//Accessing apis
 	fruits, error1 := http.Get(("https://f8776af4-e760-4c93-97b8-70015f0e00b3.mock.pstmn.io/fruits"))
 	vegetables, error2 := http.Get(("https://f8776af4-e760-4c93-97b8-70015f0e00b3.mock.pstmn.io/vegetables"))
 	grains, error3 := http.Get(("https://f8776af4-e760-4c93-97b8-70015f0e00b3.mock.pstmn.io/grains"))
 	//Calling function with data from api
-	getDetails(fruits, error1, q)
-	getDetails(vegetables, error2, q)
-	getDetails(grains, error3, q)
+	getDetails(fruits, error1, quantity)
+	getDetails(vegetables, error2, quantity)
+	getDetails(grains, error3, quantity)
 	//Sorting Data
 	sort.Slice(list, func(i, j int) bool {
 		return list[i].NameO < list[j].NameO
